@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public class HibernateTeamDataAccess implements ITeamDataAccess{
 
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Autowired
     public HibernateTeamDataAccess(EntityManager entityManager) {
@@ -35,7 +35,10 @@ public class HibernateTeamDataAccess implements ITeamDataAccess{
         String queryText = "from Team T where T.teamName = :team_name";
         Query query = session.createQuery(queryText, Team.class);
         query.setParameter("team_name", teamName);
-        Team team = (Team) query.list().get(0);
+        Team team = null;
+        if(query.list().size()>0){
+            team = (Team) query.list().get(0);
+        }
         return team;
     }
 

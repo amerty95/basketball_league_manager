@@ -6,6 +6,7 @@ import com.amerty.basketballleague.object.MatchScoreInput;
 import com.amerty.basketballleague.object.MatchScoreOutput;
 import com.amerty.basketballleague.object.ScoreBasedStats;
 import com.amerty.basketballleague.object.TeamInfo;
+import com.amerty.basketballleague.utility.Exceptions;
 import com.amerty.basketballleague.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 public class LeagueService implements ILeagueService {
 
-    private ITeamDataAccess teamDataAccess;
+    private final ITeamDataAccess teamDataAccess;
 
     @Autowired
     public LeagueService(ITeamDataAccess teamDataAccess) {
@@ -35,8 +36,19 @@ public class LeagueService implements ILeagueService {
     @Override
     @Transactional
     public MatchScoreOutput AddMatchScore(MatchScoreInput input) {
+        if(input.gScore<0 || input.hScore<0){
+            throw new Exceptions.InvalidScoreException();
+        }
+
         Team homeTeam = teamDataAccess.getTeam(input.getHome());
         Team guestTeam = teamDataAccess.getTeam(input.getGuest());
+
+        if(homeTeam == null || guestTeam == null){
+            throw new Exceptions.InvalidTeamNameException();
+        }
+        else if(input.home.equals(input.guest)){
+            throw  new Exceptions.SameTeamNameException();
+        }
 
         homeTeam.setScoredCount(Utility.AddToScored(homeTeam, input.gethScore()));
         homeTeam.setConcededCount(Utility.AddToConceded(homeTeam, input.getgScore()));
@@ -83,6 +95,9 @@ public class LeagueService implements ILeagueService {
             int order = teams.indexOf(selectedTeam);
             info.setRanking(order+1);
         }
+        else{
+            throw new Exceptions.TeamNotFoundException();
+        }
 
         return info;
     }
@@ -93,20 +108,26 @@ public class LeagueService implements ILeagueService {
         Collections.sort(teams, Comparator.comparingInt(Team::getPointCount));
         Collections.reverse(teams);
 
-        StringBuffer pointTable = new StringBuffer();
+        StringBuilder  pointTable = new StringBuilder ();
         pointTable.append("team,wins,losses,draws,points,scored,conceded,ranking");
 
         for(int i=0; i<teams.size(); i++){
             pointTable.append("\n");
-            pointTable.append(teams.get(i).getTeamName() + ",");
-            pointTable.append(teams.get(i).getWinCount() + ",");
-            pointTable.append(teams.get(i).getLossCount() + ",");
-            pointTable.append(teams.get(i).getDrawCount() + ",");
-            pointTable.append(teams.get(i).getPointCount() + ",");
-            pointTable.append(teams.get(i).getScoredCount() + ",");
-            pointTable.append(teams.get(i).getConcededCount() + ",");
+            pointTable.append(teams.get(i).getTeamName());
+            pointTable.append(",");
+            pointTable.append(teams.get(i).getWinCount());
+            pointTable.append(",");
+            pointTable.append(teams.get(i).getLossCount());
+            pointTable.append(",");
+            pointTable.append(teams.get(i).getDrawCount());
+            pointTable.append(",");
+            pointTable.append(teams.get(i).getPointCount());
+            pointTable.append(",");
+            pointTable.append(teams.get(i).getScoredCount());
+            pointTable.append(",");
+            pointTable.append(teams.get(i).getConcededCount());
+            pointTable.append(",");
             pointTable.append(i+1);
-;
         }
         return pointTable.toString();
     }
