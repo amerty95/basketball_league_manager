@@ -1,0 +1,94 @@
+{
+	"info": {
+		"_postman_id": "a24eeafe-ad34-41c3-bcc8-63119b8c4333",
+		"name": "League Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "team",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/team/FRUTTİ%20EXTRA%20BURSASPOR",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"team",
+						"FRUTTİ%20EXTRA%20BURSASPOR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "match-score",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"home\": \"TOFAŞ\",\r\n    \"guest\": \"DARÜŞŞAFAKA\",\r\n    \"hScore\": 56,\r\n    \"gScore\": 72\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/match-score",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"match-score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "team-standings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/team-standings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"team-standings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
