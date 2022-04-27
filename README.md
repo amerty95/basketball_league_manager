@@ -6,7 +6,7 @@ A demo project for basketball league with teams and matches via springboot
 Specifications:  
   
 Springboot with Java 11, Postgresql  
-I added the given 16 teams to postgre db  
+16 teams are added to DB
 DB scripts:  
 https://github.com/amerty95/basketball_league_manager/blob/master/utilities/basketball%20teams.sql  
    
@@ -73,17 +73,18 @@ http://localhost:8080/api/v1/team-standings
 Notes:  
 •	Test cases for service codes are added.  
 •	Used aspect oriented programming for basic features like Transactional service calls.  
-•	Used Controller-Service-Repository pattern
+•	Used Controller-Service-Repository pattern  
 •	Added indexing for team_name column of table since get team operations are running on team_name column.  
 •	User can import the postman json file for the sample requests in:
 https://github.com/amerty95/basketball_league_manager/blob/master/utilities/League%20Manager.postman_collection.json  
 
   
 What can be added to the program:  
-•	Users can add and delete their teams to the system  
+•	Users can add teams to the system and delete them from the system  
 •	More test cases can be added aspecially for utility methods.  
 •	Caching can be added for team standings and get team services, cache can be updated each time match-team is called  
 •	To keep track of users, authorization and token functionalities can be added.  
+•	Logging can be added for service calls  
 
 
 
